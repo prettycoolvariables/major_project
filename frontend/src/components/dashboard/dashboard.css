@@ -1,0 +1,97 @@
+:root {
+    
+    --text-color-white: #ffffff;
+    --text-color-accent: #e48700;
+    --overlay-bg-color: rgba(0, 0, 0, 0.66);
+    --font-nunito: "Nunito-Regular", Helvetica, sans-serif;
+    --font-poppins: "Poppins-ExtraBold", Helvetica, sans-serif;
+}
+
+.history-page {
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.background-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.background-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-bg-color);
+    opacity: 0.66;
+}
+
+.title-text {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    color: #e48700;
+
+    font-family: var(--font-poppins);
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.vector-icon {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    width: 30px;
+    height: auto;
+}
+
+.nav {
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #d9d9d9;
+    padding: 10px 0;
+}
+
+.nav-item {
+    font-family: var(--font-nunito);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-color-black);
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    text-decoration: none; /* Remove underline */
+    
+
+}
+
+
+
+.history {
+    position: absolute;
+    top: 38%;
+    left: 10%;
+    color: darkred;
+    font-family: var(--font-nunito);
+    font-size: 20px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
