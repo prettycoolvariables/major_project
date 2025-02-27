@@ -34,7 +34,7 @@ with app.app_context():
 @app.route('/login', methods=['POST'])
 def login():
     """
-    Login to get a JWT
+    Login 
     ---
     parameters:
       - in: body
@@ -60,9 +60,8 @@ def login():
     """
     username = request.json.get('username', None)
     password = request.json.get('password', None)
-    if username != 'AleenaMariaRajesh' or password != 'LiaAunty':  
-        return jsonify({'msg': 'Bad username or password'}), 401
-
+    if username != 'authority' or password != '123':  
+        return jsonify({'msg': 'bad username or password'}), 401
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
 
