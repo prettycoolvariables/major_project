@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./dashboard.css";
-import bgImage from "../../assets/bg.png";
+import bgImage from "../../assets/bg.jpg";
 
-const Dashboard = () => {
-
+const Dashboard = ({data}) => {
+    console.log(data);
     return (
+        
         <div className={styles["history-page"]}>
             {/* Background and Overlay */}
             <div className={styles["background-overlay"]}>
@@ -39,7 +40,7 @@ const Dashboard = () => {
 
             {/* Locations List */}
             <div className={styles["history"]}>
-                {incidentData.map((incident, index) => (
+                {data.map((incident, index) => (
                     <div key={index}>
                         <strong>{incident.location}</strong><br />
                         {incident.details}
