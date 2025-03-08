@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,16 +11,19 @@ const Login = () => {
     e.preventDefault();
 
     // Add authentication logic here
-    if (email === "test@example.com" && password === "123") {
+    if (email === "authority" && password === "123") {
       navigate("/dashboard");
     } else {
       alert("Invalid email or password!");
     }
   };
 
+
+
+
+  
   return (
     <div className="login">
-
       <div className="loginCard">
         <h2 className="ltitle">SoundTrace</h2>
         <form className="lform" onSubmit={handleLogin}>

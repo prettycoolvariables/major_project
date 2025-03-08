@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react'
 import Login from "./components/login/login";
+import Install from "./components/install/install";
 import Dashboard from "./components/dashboard/dashboard";
 import { Route, Router, Routes, Link } from "react-router-dom";
 
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard data={data} />} />
+        <Route path="/install" element={<Install />} />
       </Routes>
 
   );

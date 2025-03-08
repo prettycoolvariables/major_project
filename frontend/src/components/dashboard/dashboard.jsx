@@ -3,13 +3,30 @@ import { Link } from "react-router-dom";
 import "./dashboard.css";
 
 const Dashboard = ({ data }) => {
-  console.log(data);
+  console.log("kitti",data);
+
+const accident=data.map((incident, index) =>{
+  return(
+    <div key={index}>
+      <br></br>
+            <strong>{incident.anomaly_type}</strong>
+            <br />
+            {incident.date_time}, 
+            {incident.geolocation}
+          </div>
+  )
+})
+console.log("sadanam",accident)
+
+
+
+
   return (
     <div className="dashboard">
-      <h2 className="dtitle">Dashboard</h2>
-
+      <div className="dtitle"><h2>Dashboard</h2></div>
+      
       <div className="nav">
-        <Link to="/installations" className="nav-item">
+        <Link to="/install" className="nav-item">
           INSTALLATIONS
         </Link>
         <Link to="/history" className="nav-item">
@@ -20,18 +37,12 @@ const Dashboard = ({ data }) => {
         </Link>
       </div>
 
-      {/* Locations List */}
-      <div className="locations">
-        {data.map((incident, index) => (
-          <div key={index}>
-            <strong>{incident.location}</strong>
-            <br />
-            {incident.details}
-          </div>
-        ))}
-      </div>
+      <div className="accidents">{accident}</div>
     </div>
   );
 };
 
 export default Dashboard;
+
+
+
