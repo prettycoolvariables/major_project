@@ -7,7 +7,7 @@
     --font-poppins: "Poppins-ExtraBold", Helvetica, sans-serif;
 }
 
-.installs {
+.history {
     background-image: url("../../assets/bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -16,7 +16,7 @@
 
 }
 
-.ititle{
+.htitle{
     color: #e48700;
     font-family: var(--font-poppins);
     font-size: 24px;
@@ -49,4 +49,45 @@
 }
 .nav-item:hover {
     color: darkorange; 
+}
+.accidents{
+    display: none;
+
+}
+.show{
+    margin: 2%;
+    border-radius: 10px;
+    width:40%;
+    padding: 0 0 20px 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.noshow{
+    display: none;
+}
+
+.toggle{
+    width:150px;
+    margin: 2% 2% 0 2%;
+    background-color: darkorange;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-family: var(--font-poppins);
+  transition: background-color 0.3s ease;
+}
+
+.toggle:hover {
+    background-color: #e48700;
+  }
+  
+
+.viewall{
+    display: flex;
+    flex-direction: column;
 }

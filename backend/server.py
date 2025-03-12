@@ -31,6 +31,21 @@ class AnomalyMeta(db.Model):
 with app.app_context():
     db.create_all()
 
+
+@app.route('/receive', methods=['POST'])
+def receive_data():
+    data = request.json  # Get JSON data from the request
+    message = data.get("message", "No message received")
+    print(message)
+    return jsonify({"status": "success", "received_string": message})
+
+
+
+
+
+
+
+
 @app.route('/login', methods=['POST'])
 def login():
     """
