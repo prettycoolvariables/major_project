@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_with_context
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, create_access_token
 import datetime
 from flasgger import Swagger
 from flask_cors import CORS 
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///anomaly.db'  
@@ -13,6 +14,11 @@ db = SQLAlchemy(app)
 jwt = JWTManager(app)
 swagger = Swagger(app)
 cors=CORS(app)
+
+message=None
+token=None
+
+
 
 class AnomalyMeta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,16 +41,19 @@ with app.app_context():
 @app.route('/receive', methods=['POST'])
 def receive_data():
     data = request.json  # Get JSON data from the request
+    global message
     message = data.get("message", "No message received")
     print(message)
     return jsonify({"status": "success", "received_string": message})
 
-
-
-
-
-
-
+@app.route('/stream')
+def stream():
+    def event_stream():
+        global message
+        if message:
+            yield f"data: {message}\n\n"
+            message = None  # Clear the alert after sending
+    return Response(event_stream(), content_type='text/event-stream')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -77,8 +86,11 @@ def login():
     password = request.json.get('password', None)
     if username != 'authority' or password != '123':  
         return jsonify({'msg': 'bad username or password'}), 401
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity=username, expires_delta=timedelta(hours=1))
+    global token
+    token=access_token
     return jsonify(access_token=access_token)
+
 
 @app.route('/add_anomaly', methods=['POST'])
 # @jwt_required()
@@ -144,6 +156,7 @@ def get_accidents():
                 format: date-time
     """
     anomalies = AnomalyMeta.query.all()
+    # current_user = get_jwt_identity()
     return jsonify([anomaly.get_val() for anomaly in anomalies])
 
 @app.route('/anomaly/<int:anomaly_id>', methods=['GET'])
@@ -180,6 +193,8 @@ def get_accident(anomaly_id):
         return jsonify(anomaly.get_val())
     else:
         return jsonify({'msg': 'Anomaly not found'}), 404
+
+print(token)
 
 if __name__ == '__main__':
     app.run(debug=True)
