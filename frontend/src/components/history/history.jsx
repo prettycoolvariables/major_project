@@ -2,8 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./history.css";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const History = ({ data }) => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    navigate("/");
+  };
   console.log("kitti", data);
   const [ddtoggled, setddtoggled] = useState(false);
   const accident = data.map((incident, index) => {
@@ -31,9 +37,9 @@ const History = ({ data }) => {
         <Link to="/dashboard" className="nav-item">
           DASHBOARD
         </Link>
-        <Link to="/" className="nav-item">
-          LOGOUT
-        </Link>
+        <button onClick={handleLogout} className="logoutbutton">
+        LOGOUT
+      </button>
       </div>
 
       <div className="viewall">

@@ -3,17 +3,13 @@ import { Link } from "react-router-dom";
 import "./dashboard.css";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const Dashboard = ({alertdata}) => {
   const navigate = useNavigate();
-
   const handleLogout = () => {
-    // Clear the token from localStorage
     localStorage.removeItem("access_token");
-
-    // Redirect to the login page
     navigate("/");
   };
-
+console.log("alert",alertdata)
   return (
     <div className="dashboard">
       <div className="dtitle"><h2>Dashboard</h2></div>
@@ -25,10 +21,11 @@ const Dashboard = () => {
         <Link to="/history" className="nav-item">
           HISTORY
         </Link>
-        <button onClick={handleLogout} className="logout-button">
+        <button onClick={handleLogout} className="logoutbutton">
         LOGOUT
       </button>
       </div>
+      <h2>{alertdata}</h2>
 
  
     </div>
