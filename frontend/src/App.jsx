@@ -72,24 +72,27 @@ function App() {
 
   return (
     <div>
-      {/* Button to open the modal */} 
-       <button onClick={openModal}>Alert box</button>
+      {/* Button to open the modal */}
+      <button onClick={openModal}>Alert box</button>
 
       {/* Persistent Modal */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2>ALERT!</h2>
-        <p>Accident: {alertdata}</p>
+        <p>Accident detected : {alertdata}</p>
       </Modal>
 
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard data={data} />} /></Route>
+          <Route path="/dashboard" element={<Dashboard data={data} />} />
+        </Route>
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/installations" element={<Install />} /></Route>
+          <Route path="/installations" element={<Install />} />
+        </Route>
         <Route element={<ProtectedRoute />}>
-          <Route path="/history" element={<History data={data} />} /></Route>
+          <Route path="/history" element={<History data={data} />} />
+        </Route>
       </Routes>
     </div>
   );
