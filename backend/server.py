@@ -5,6 +5,7 @@ import datetime
 from flasgger import Swagger
 from flask_cors import CORS 
 from datetime import timedelta
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///anomaly.db'  
@@ -16,13 +17,16 @@ swagger = Swagger(app)
 cors=CORS(app)
 
 message=None
+av=0
+geo=None
+date=None
 token=None
 
 
 
 class AnomalyMeta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    anomaly_type = db.Column(db.String(100), nullable=False)
+    anomaly_type = db.Column(db.Integer, nullable=False)
     geolocation = db.Column(db.String(200), nullable=False)
     date_time = db.Column(db.DateTime, nullable=False)
 
@@ -41,17 +45,29 @@ with app.app_context():
 @app.route('/receive', methods=['POST'])
 def receive_data():
     data = request.json  # Get JSON data from the request
-    global message
+    global message,geo,av,date
     message = data.get("message", "No message received")
-    print(message)
+    av = data.get("anomaly_type", "No message received")
+    geo = data.get("geolocation", "No message received")
+    date = data.get("date_time", "No message received")
+    print("aaaaa\n\n",av)
     return jsonify({"status": "success", "received_string": message})
 
 @app.route('/stream')
 def stream():
     def event_stream():
-        global message
+        url = "http://127.0.0.1:5000/add_anomaly"
+        headers = {"accept": "application/json","Content-Type": "application/json"}
+        global message,av,data,geo
+        print(message)
         if message:
             yield f"data: {message}\n\n"
+            data = {
+                "anomaly_type": av,
+                "date_time": "2025-04-02 08:49:23",
+                "geolocation": geo
+            }
+            requests.post(url, headers=headers, json=data)
             message = None  # Clear the alert after sending
     return Response(event_stream(), content_type='text/event-stream')
 
@@ -106,7 +122,7 @@ def create_anomaly():
           type: object
           properties:
             anomaly_type:
-              type: string
+              type: integer
             geolocation:
               type: string
             date_time:
@@ -148,7 +164,7 @@ def get_accidents():
               id:
                 type: integer
               anomaly_type:
-                type: string
+                type: integer
               geolocation:
                 type: string
               date_time:
@@ -179,7 +195,7 @@ def get_accident(anomaly_id):
             id:
               type: integer
             anomaly_type:
-              type: string
+              type: integer
             geolocation:
               type: string
             date_time:
@@ -197,4 +213,4 @@ def get_accident(anomaly_id):
 print(token)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)

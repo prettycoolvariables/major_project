@@ -16,7 +16,7 @@ const History = ({ data }) => {
     return (
       <div key={index}>
         <br></br>
-        <strong>{incident.anomaly_type}</strong>
+        <strong>Anomaly value:{incident.anomaly_type}</strong>
         <br />
         {incident.date_time},{incident.geolocation}
       </div>

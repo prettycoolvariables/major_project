@@ -21,11 +21,7 @@ function App() {
     console.log("token", tokendata);
   }
 
-  // async function logintoken() {
-  //   const fetched = await fetch("http://127.0.0.1:5000/login");
-  //     const alertdata = await fetched.json();
-  //     setAlertdata(alertdata);
-  //}
+
   async function getallcrashes() {
     const fetched = await fetch("http://127.0.0.1:5000/get_all");
     // const datafetched = await fetched.json()
@@ -69,11 +65,11 @@ function App() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  console.log(alertdata)
   return (
     <div>
       {/* Button to open the modal */}
-      <button onClick={openModal}>Alert box</button>
+      {/* <button onClick={openModal}>Alert box</button> */}
 
       {/* Persistent Modal */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -84,7 +80,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard data={data} />} />
+          <Route path="/dashboard" element={<Dashboard alertdata={alertdata} />} />
         </Route>
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route element={<ProtectedRoute />}>
