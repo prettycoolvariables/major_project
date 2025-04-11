@@ -101,7 +101,7 @@ const Dashboard = ({ alertdata, data }) => {
       {/* Pie Chart for Anomalies */}
       <div className="chart-container">
         <h3>Anomalies Detected</h3>
-        <PieChart width={400} height={300}>
+        <PieChart width={600} height={300}>
         <Pie
             data={accidentData}
             cx="50%"
@@ -110,17 +110,17 @@ const Dashboard = ({ alertdata, data }) => {
             outerRadius={80}
             fill="#8884d8"
             dataKey="value"
-            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+            label={({ name, percent }) => `${name}: ${(percent * 100)}%`}
           >
             {accidentData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip 
+          {/* <Tooltip 
             formatter={(value, name, props) => [
               value, 
-              `${name} (${((props.payload.percent || 0) * 100).toFixed(2)}%)`]}
-          />
+              `${name} (${((props.payload.percent || 0) * 100)}%)`]}
+          /> */}
           <Legend />
         </PieChart>
       </div>

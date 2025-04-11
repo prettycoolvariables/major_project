@@ -157,11 +157,12 @@
 }
 
 .logoutbutton:hover {
-    background-color: #e48700;
+    background-color: #c67b09;
 }
 
 .alertnotif{
     padding: 8px 15px;
     border-radius: 5px;
+    color: red;
     background-color: #d9d9d9;
 }

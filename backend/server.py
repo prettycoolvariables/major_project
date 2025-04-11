@@ -17,7 +17,7 @@ swagger = Swagger(app)
 cors=CORS(app)
 
 message=None
-av=0
+av=None
 geo=None
 date=None
 token=None
@@ -26,7 +26,7 @@ token=None
 
 class AnomalyMeta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    anomaly_type = db.Column(db.Float, nullable=False)
+    anomaly_type = db.Column(db.String(100), nullable=False)
     geolocation = db.Column(db.String(200), nullable=False)
     date_time = db.Column(db.DateTime, nullable=False)
 
@@ -50,7 +50,8 @@ def receive_data():
     av = data.get("anomaly_type", "No message received")
     geo = data.get("geolocation", "No message received")
     date = data.get("date_time", "No message received")
-    print("aaaaa\n\n",av)
+    print("aaaaa\n\n",av,geo,date)
+    print("\n\n",data)
     return jsonify({"status": "success", "received_string": message})
 
 @app.route('/stream')
@@ -59,7 +60,7 @@ def stream():
         url = "http://127.0.0.1:5000/add_anomaly"
         headers = {"accept": "application/json","Content-Type": "application/json"}
         global message,av,date,geo
-        print(message)
+        print("\n\n trying to post",message,av,date,geo)
         if message:
             yield f"data: {message}\n\n"
             # "2025-04-02 08:49:23"
@@ -123,7 +124,7 @@ def create_anomaly():
           type: object
           properties:
             anomaly_type:
-              type: integer
+              type: string
             geolocation:
               type: string
             date_time:
