@@ -26,7 +26,7 @@ token=None
 
 class AnomalyMeta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    anomaly_type = db.Column(db.Integer, nullable=False)
+    anomaly_type = db.Column(db.Float, nullable=False)
     geolocation = db.Column(db.String(200), nullable=False)
     date_time = db.Column(db.DateTime, nullable=False)
 
@@ -58,13 +58,14 @@ def stream():
     def event_stream():
         url = "http://127.0.0.1:5000/add_anomaly"
         headers = {"accept": "application/json","Content-Type": "application/json"}
-        global message,av,data,geo
+        global message,av,date,geo
         print(message)
         if message:
             yield f"data: {message}\n\n"
+            # "2025-04-02 08:49:23"
             data = {
                 "anomaly_type": av,
-                "date_time": "2025-04-02 08:49:23",
+                "date_time": date,
                 "geolocation": geo
             }
             requests.post(url, headers=headers, json=data)
@@ -175,40 +176,40 @@ def get_accidents():
     # current_user = get_jwt_identity()
     return jsonify([anomaly.get_val() for anomaly in anomalies])
 
-@app.route('/anomaly/<int:anomaly_id>', methods=['GET'])
-# @jwt_required()
-def get_accident(anomaly_id):
-    """
-    Get an Anomaly by ID
-    ---
-    parameters:
-      - name: anomaly_id
-        in: path
-        type: integer
-        required: true
-    responses:
-      200:
-        description: The Anomaly with the given ID
-        schema:
-          type: object
-          properties:
-            id:
-              type: integer
-            anomaly_type:
-              type: integer
-            geolocation:
-              type: string
-            date_time:
-              type: string
-              format: date-time
-      404:
-        description: Anomaly not found
-    """
-    anomaly = AnomalyMeta.query.get(anomaly_id)
-    if anomaly:
-        return jsonify(anomaly.get_val())
-    else:
-        return jsonify({'msg': 'Anomaly not found'}), 404
+# @app.route('/anomaly/<string:geolocation>', methods=['GET'])
+#  @jwt_required()
+# def get_accident(geolocation):
+#     """
+#     Get an Anomaly by ID
+#     ---
+#     parameters:
+#       - name: geolocation
+#         in: path
+#         type: string
+#         required: true
+#     responses:
+#       200:
+#         description: The Anomaly with the given ID
+#         schema:
+#           type: object
+#           properties:
+#             id:
+#               type: integer
+#             anomaly_type:
+#               type: float
+#             geolocation:
+#               type: string
+#             date_time:
+#               type: string
+#               format: date-time
+#       404:
+#         description: Anomaly not found
+#     """
+#     anomaly = AnomalyMeta.query.get(geolocation=geolocation)
+#     if anomaly:
+#         return jsonify(anomaly.get_val())
+#     else:
+#         return jsonify({'msg': 'Anomaly not found'}), 404
 
 print(token)
 

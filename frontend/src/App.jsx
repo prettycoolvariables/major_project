@@ -66,6 +66,7 @@ function App() {
     setIsModalOpen(false);
   };
   console.log(alertdata)
+  console.log(data)
   return (
     <div>
       {/* Button to open the modal */}
@@ -80,11 +81,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard alertdata={alertdata} />} />
+          <Route path="/dashboard" element={<Dashboard alertdata={alertdata} data={data}/>} />
         </Route>
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/installations" element={<Install />} />
+          <Route path="/installations" element={<Install data={data} />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/history" element={<History data={data} />} />

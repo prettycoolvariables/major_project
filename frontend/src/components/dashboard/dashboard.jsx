@@ -41,7 +41,7 @@ import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import "./dashboard.css";
 
-const Dashboard = ({ alertdata }) => {
+const Dashboard = ({ alertdata, data }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -55,13 +55,28 @@ const Dashboard = ({ alertdata }) => {
   const anomalyData = [
     { name: "Kakkanad", value: 10 },
     { name: "Thripunithura", value: 15 },
-    { name: "Kochi", value: 20 },
+    { name: "Edapally", value: 20 },
     { name: "Aluva", value: 5 },
     
   ];
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  // Process data to count accidents per location
+  const getAccidentCounts = () => {
+    const counts = {};
+    
+    data.forEach(item => {
+      const location = item.geolocation.toLowerCase();
+      counts[location] = (counts[location] || 0) + 1;
+    });
 
+    return Object.entries(counts).map(([name, value]) => ({
+      name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize first letter
+      value,
+    }));
+  };
+
+  const accidentData = getAccidentCounts()
   return (
     <div className="dashboard">
       <div className="dtitle">
@@ -87,20 +102,25 @@ const Dashboard = ({ alertdata }) => {
       <div className="chart-container">
         <h3>Anomalies Detected</h3>
         <PieChart width={400} height={300}>
-          <Pie
-            data={anomalyData}
+        <Pie
+            data={accidentData}
             cx="50%"
             cy="50%"
-            outerRadius={100}
+            labelLine={false}
+            outerRadius={80}
             fill="#8884d8"
             dataKey="value"
-            label
+            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
           >
-            {anomalyData.map((entry, index) => (
+            {accidentData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip 
+            formatter={(value, name, props) => [
+              value, 
+              `${name} (${((props.payload.percent || 0) * 100).toFixed(2)}%)`]}
+          />
           <Legend />
         </PieChart>
       </div>

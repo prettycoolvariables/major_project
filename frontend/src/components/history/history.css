@@ -92,6 +92,19 @@
     flex-direction: column;
 }
 
-.logoutbutton{
-    
+.logoutbutton {
+    font-family: var(--font-nunito);
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 15px;
+    background-color: darkorange;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.logoutbutton:hover {
+    background-color: #e48700;
 }
